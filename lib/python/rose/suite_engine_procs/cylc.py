@@ -277,8 +277,11 @@ class CylcProcessor(SuiteEngineProcessor):
                         if key == "status":
                             continue
                     if task_name in datum["tasks"]:
-                        submit = datum["tasks"][task_name][int(submit_num) - 1]
-                        submit["files"][key] = {"n_bytes": size}
+                        try:
+                            submit = datum["tasks"][task_name][int(submit_num) - 1]
+                            submit["files"][key] = {"n_bytes": size}
+                        except IndexError:
+                            pass
                 tar.close()
                 continue
             # Check stats of job logs of this cycle
